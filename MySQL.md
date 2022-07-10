@@ -52,6 +52,14 @@ declare num int;
 repeat
 	set num = num + 1;
 	until i > 5;
-end re
+end repeat;
+```
+
+- 循环控制-------常用于符合某个条件跳出事务或者函数
+
+``` sql
+leave_lab:[循环|create|……]
+	#跳出到leave_lab标签
+	then leave leave_lab;
 ```
 
