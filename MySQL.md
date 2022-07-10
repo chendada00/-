@@ -22,13 +22,13 @@ end case;
 
 3 循环
 
-- loop
+- loop-------自定义跳出条件
 
 ``` sql
 declare num int;
 lp:loop
 	set num = num + 1;
-	#如果大于5跳出
+	#如果大于5跳出循环
 	if num > 5 then leave lp;
 	end if;
 end loop;
@@ -36,8 +36,22 @@ end loop;
 
 
 
-- while
+- while---------符合条件时循环
 
 ```sql
+declare num int;
+while num < 5 do
+	num = num + 1;
+end while;
+```
+
+- repeat---------符合条件跳出循环
+
+``` mysql
+declare num int;
+repeat
+	set num = num + 1;
+	until i > 5;
+end re
 ```
 
