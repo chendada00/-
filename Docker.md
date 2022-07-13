@@ -8,8 +8,6 @@ docker info				#显示docker的系统信息
 docker 命令 --hepl	  #帮助命令
 
 docker images			#查询当前容器中的镜像
-REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
-hello-world   latest    feb5d9fea6a5   8 months ago   13.3kB
 
 #搜索镜像
 docker search 软件名
@@ -27,6 +25,8 @@ docker rmi -f 软件名或者id，多个用空格隔开
 docker rmi -f $(docker images) 
 
 ```
+
+
 
 
 
@@ -232,8 +232,6 @@ docker run -d -p 3308:3306
 ## DockerFile
 
 ``` shell
-
-
 FROM			# 基础镜像
 MAINTAINER		# 指定镜像作者
 RUN				# 镜像构建是需要运行的命令
@@ -377,3 +375,35 @@ services:
 
 ```
 
+
+
+
+
+## 镜像和容器的导入导出
+
+==镜像导入导出==
+
+``` shell
+# 导出
+docker save -o 指定路径 指定镜像名称
+
+# 导入
+docker load -i 镜像路径
+```
+
+==容器导入导出==
+
+``` shell
+#导出
+docker export -o 文件全路径 镜像名称
+
+# 导入
+docker import 文件全路径
+```
+
+> 导出是文件后缀为tar
+>
+> save保存的是镜像，export保存的是容器
+> load用来载入镜像包，import用来载入容器包，但两者都会恢复为镜像
+> load不能对载入的镜像重命名，而import可以为镜像指定新名称
+> load不能载入容器包，import能载入镜像包，但不能使用
