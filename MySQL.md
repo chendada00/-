@@ -108,3 +108,37 @@ leave_lab:[循环|create|……]
 	then leave leave_lab;
 ```
 
+## MySQL中权限相关的表
+
+1. user
+
+记录允许连接到服务器的用户账号信息，里面的权限是全局的。
+
+2. db
+
+记录各个账号在各个数据库上的操作权限。
+
+3. table_priv
+
+记录表级的操作权限。
+
+4. columns_priv
+
+记录列级的操作权限。
+
+5. host
+
+配合db对给定主机上的数据库级操作权限更加细致的控制。
+
+## 查询mysql中的连接情况
+
+``` sql
+show PROCESSLIST;
+```
+
+|  Id  |      User       |      Host       |  db   | Command | Time  |         State          |       Info       |
+| :--: | :-------------: | :-------------: | :---: | :-----: | :---: | :--------------------: | :--------------: |
+|  5   | event_scheduler |    localhost    |       | Daemon  | 75989 | Waiting on empty queue |                  |
+|  8   |      root       | localhost:58474 |       |  Sleep  | 10922 |                        |                  |
+|  9   |      root       | localhost:58478 | mysql |  Query  |   0   |          init          | show PROCESSLIST |
+|  10  |      root       | localhost:58479 | mysql |  Sleep  |  411  |                        |                  |
