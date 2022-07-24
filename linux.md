@@ -1,5 +1,20 @@
 # Linux
 
+## 定时任务
+
+``` shell
+# 查看定时任务
+crontab -l
+
+# 修改定时任务配置
+crontab -e
+
+# 查看定时日志
+tail -f /var/log/cron
+```
+
+
+
 ## 常用命令
 
 - system [start|status|restart|stop] 服务名
@@ -14,15 +29,7 @@
 - update user set host = '%' where user='root';            查看和开启远程访问
 - find . -type f -mtime +1                                                查找最近一天修改的文件
 
- 
 
-## rabbitmq（端口15672）
-
-- rabbitmq-plugins list  查看rabbitmq的管理器插件
-- rabbitmq-plugins enable rabbitmq_management                安装管理控制台
-- [{rabbit, [{loopback_users. []}]}].            默认只能本地登录，新增配置文件修改配置
-
- 
 
 ## mysql改密码
 
