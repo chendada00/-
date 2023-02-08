@@ -81,7 +81,8 @@ default-character-set=utf8mb4
 - 改密码
   - ALTER USER 'root'@'localhost' IDENTIFIED BY '新密码';
 
-
+- 开启远程访问
+  - update user set host='%' where user='root';
 
 ## 流程控制
 
