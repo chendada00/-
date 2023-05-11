@@ -1,5 +1,133 @@
 # Docker
 
+### pmm
+
+```dockerfile
+# admin
+docker run -d --name=pmm --restart=always \
+-p 2812:2812 -p 2813:80 -p 2814:443 \
+--privileged=true  \
+percona/pmm-server:latest
+
+# client
+docker run -d  --net=pxc_network \
+--name pmm-client \
+-v /etc/localtime:/etc/localtime \
+-e PMM_AGENT_SERVER_ADDRESS=10.252.110.188:2814 \
+-e PMM_AGENT_SERVER_USERNAME=admin \
+-e PMM_AGENT_SERVER_PASSWORD=admin \
+-e PMM_AGENT_SERVER_INSECURE_TLS=1 \
+-e PMM_AGENT_SETUP=1 \
+-e PMM_AGENT_CONFIG_FILE=config/pmm-agent.yaml \
+percona/pmm-client:latest  
+
+pmm-admin add mysql --host=opalpxc3 --port=3306 --username=pmm --password=Mes_opal123 --service-name=pxc3
+
+在安装pmm-client客户端的主机上，添加监控的MySQL实例
+ 
+pmm-admin add mysql --username=username --password=password --tls --tls-skip-verify --tls-ca=pathtoca.pem --tls-cert=pathtocert.pem --tls-key=pathtocertkey.pem --server-url=http://admin:admin@172.16.130.12 --query-source=perfschema name 172.16.130.53:3308
+
+pmm-admin add proxysql --host=10.252.110.183 --port=6033 --username=mes_opal --password=Mes_opal123 --service-name=proxysql
+
+
+
+docker exec -it pmm-client bash
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 10 May 2023 01:37:33 GMT
+Content-Type: application/json
+Content-Length: 1123
+Connection: keep-alive
+Cache-Control: no-cache
+Content-Encoding: gzip
+Expires: -1
+Pragma: no-cache
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Frame-Options: deny
+X-Xss-Protection: 1; mode=block
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-control: no-cache
+Pragma: no-cache
+Strict-Transport-Security: max-age=63072000; includeSubdomains;
+```
+
+
+
+
+
+
+
+``` sh
+-h、 --help显示上下文相关的帮助。
+--服务器url=服务器url PMM中的服务器urlhttps://username:password@pmm服务器主机/格式
+--服务器不安全tls跳过PMM服务器tls证书验证
+--debug启用调试日志记录
+--trace启用跟踪日志记录（表示调试）
+--pmm代理侦听端口=7777设置pmm代理的侦听端口
+--json启用json输出
+-v、 --version显示应用程序版本
+--socket=STRING MySQL套接字的路径
+--node id=STRING节点id（默认为自动检测）
+--pmm代理id=STRING运行此实例的pmm代理标识符（默认为自动检测）
+--username=“root”MySQL用户名
+--password=STRING MySQL密码
+--代理密码=字符串/度量端点的自定义密码
+--query source=“slowlog”SQL查询的源，其中之一：slowlog、perfschema、none（默认值：slowllog）
+--最大查询长度=NUMBER以QAN限制查询长度（默认值：服务器定义；-1：无限制）
+--禁用queryexamples禁用查询示例的集合
+--size慢速日志=size按此大小旋转慢速日志文件（默认值：服务器定义；负值禁用旋转）。示例：1GiB
+--disable tablestats禁用表统计信息收集
+--disable tablestats limit=NUMBER如果表的数量超过指定数量（默认值：服务器定义），则将禁用表统计信息集合
+--environment=STRING环境名称
+--cluster=STRING集群名称
+--复制集=字符串复制集名称
+--自定义标签=KEY=VALUE，。。。自定义用户分配的标签
+--跳过连接检查跳过连接检查
+--tls使用tls连接到数据库
+--tls跳过验证跳过tls证书验证
+--tls ca=STRING证书颁发机构证书文件的路径
+--tls-cert=STRING客户端证书文件的路径
+--tls-key=STRING客户端密钥文件的路径
+--metrics mode=“auto”度量流模式，可以是推送-代理将推送度量，拉取-服务器从代理中刮取度量，也可以由服务器自动选择
+--禁用收集器=禁用收集器，。。。要从导出程序中排除的收集器名称的逗号分隔列表
+--服务名称=名称服务名称（替代位置参数）
+--host=host服务主机名或IP地址（替代位置参数）
+--port=port服务端口号（替代位置参数）
+--log level=“warn”服务日志记录级别。其中之一：[debug，info，warn，error]
+```
+
+
+
+
+
+
+
+
+
+
+
+### 设置日志大小
+
+```dockerfile
+docker update --log-opt max-size=20m --log-opt max-file=30 <container-id>
+```
+
+
+
+### 自动重启容器
+
+``` dockerfile
+docker update --restart=always 容器ID(或者容器名)
+
+
+```
+
+
+
 ### docker镜像用命令
 
 ```shell
