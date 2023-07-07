@@ -1,5 +1,42 @@
 # MySQL
 
+## 创建定时任务
+
+``` sql
+create definer = opal_opc@`%` event job_dataprocess on schedule
+    every '3' MINUTE
+        starts '2022-10-19 10:00:00'
+    enable
+    do
+    call P_OPAL_DATAPROCESS();
+```
+
+
+
+
+
+
+
+## 慢查询
+
+``` sql
+SHOW VARIABLES LIKE 'slow_query_log';
+SHOW VARIABLES LIKE 'slow_query_log_file';
+SHOW VARIABLES LIKE 'long_query_time';
+
+SET GLOBAL slow_query_log = 'ON';
+SET GLOBAL slow_query_log_file = '/var/log/mysql/mysql-slow.log';
+SET GLOBAL long_query_time = 40;-- 单位秒
+```
+
+
+
+
+
+
+
+
+
 ## mysql日志类别
 
 **重写日志**`（redo log）`

@@ -1,5 +1,38 @@
 # Linux
 
+## 换源
+
+``` shell
+1、安装wget
+yum -y install wget
+
+2、首先备份
+mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.b
+
+3、下载阿里云的yum源到/etc/yum.repos.d/
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+4、清除缓存
+yum clean all
+
+5、更新本地YUM缓存
+yum makecache
+```
+
+
+
+
+
+## 图形化安装软件源地址
+
+- 官方镜像地址：http://mirror.centos.org/centos/8/BaseOS/x86_64/os/ （BaseOS镜像，包含CentOS 8的基本系统安装文件）
+- 阿里云镜像地址：http://mirrors.aliyun.com/centos/8/BaseOS/x86_64/os/ （BaseOS镜像，包含CentOS 8的基本系统安装文件）
+- 中科大镜像地址：https://mirrors.ustc.edu.cn/centos/8/BaseOS/x86_64/os/ （BaseOS镜像，包含CentOS 8的基本系统安装文件）
+
+
+
+
+
 ## linux强制改密码配置
 
 ``` shell
