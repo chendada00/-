@@ -3,52 +3,32 @@
 ##  线程池创建
 
 ``` java
-ThreadPoolExecutor(int corePoolSize,
-                   int maximumPoolSize,
-                   long keepAliveTime,
-                   TimeUnit unit,
-                   BlockingQueue<Runnable> workQueue,
-                   ThreadFactory threadFactory,
-                   RejectedExecutionHandler handler)
+private static final ThreadPoolExecutor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(
+            Runtime.getRuntime().availableProcessors(),
+            Runtime.getRuntime().availableProcessors()*2,
+            10,
+            TimeUnit.MINUTES,
+            new LinkedBlockingDeque<>(1000),
+            Executors.defaultThreadFactory(),
+            new ThreadPoolExecutor.CallerRunsPolicy());
+
+//指定拒绝策略
+THREAD_POOL_EXECUTOR.setRejectedExecutionHandler(new CallerRunsPolicy());
+
+AbortPolicy（默认策略）：直接抛出RejectedExecutionException异常，阻止系统正常运行。
+CallerRunsPolicy：由调用者线程来执行被拒绝的任务。这样做可以降低任务提交速度，但可能影响整体执行效率。
+DiscardPolicy：直接丢弃被拒绝的任务，不做任何处理。
+DiscardOldestPolicy：丢弃最早的任务，然后尝试再次提交被拒绝的任务。
+
+
+//创建带有延迟队列的线程池
+private static final ScheduledThreadPoolExecutor scheduledExecutorService = new ScheduledThreadPoolExecutor(
+            5,
+            new ThreadPoolExecutor.CallerRunsPolicy()
+    );
 ```
 
-corePoolSize： 线程池维护线程的最少数量 
-maximumPoolSize：线程池维护线程的最大数量 
-keepAliveTime： 线程池维护线程所允许的空闲时间 
-unit： 线程池维护线程所允许的空闲时间的单位 
-workQueue： 线程池所使用的缓冲队列 
-handler： 线程池对拒绝任务的处理策略 
 
-- Queue队列
-
-（1）ArrayBlockingQueue：有界队列，我们在创建对象的时候可以指定上限，也必须指定上限（2）LinkedBlockingQueue：无界队列，但是事实上还是有界的，只不过队伍可以很长，int的最大值21亿多
-
-handler有四个选择： 
-
-（1）ThreadPoolExecutor.AbortPolicy()   抛出java.util.concurrent.RejectedExecutionException异常 
-（2）ThreadPoolExecutor.CallerRunsPolicy()  重试添加当前的任务，他会自动重复调用execute()方法 
-（3）ThreadPoolExecutor.DiscardOldestPolicy() 抛弃旧的任务 （等待队列里面最早进入的）
-（4）ThreadPoolExecutor.DiscardPolicy()     抛弃当前的任务 
-
-
-
-- newFixedThreadPool：
-  - 创建一个固定大小的线程池
-
-- newCachedThreadPool：
-  - 带缓存的线程池，适用于短时间有大量任务的场景，但有可能会占用更多的资源；线程数量随任务量而定。
-
-- newSingleThreadExecuto:
-  - 创建单个线程的线程池
-
-- newSingleThreadScheduledExecutor：
-  - 创建执行定时任务的单个线程的线程池
-
-- newScheduledThreadPool：
-  - 创建执行定时任务的线程池
-
-- newWorkStealingPool：
-  - 根据当前设备的配置自动生成线程池
 
 
 

@@ -1,5 +1,29 @@
 # Nginx
 
+## alias和root区别
+
+```
+nginxCopy codelocation /static/ {
+    alias /path/to/static/files/;
+}
+```
+
+==当请求 `/static/image.jpg` 时，实际上服务器会从 `/path/to/static/files/image.jpg` 这个路径下提供相应的文件。==这样，你可以将实际存储静态文件的路径隐藏起来，不必直接在 URL 中暴露。
+
+```
+nginxCopy codelocation /static/ {
+    root /path/to/static/files/;
+}
+```
+
+==这时，请求 `/static/image.jpg` 会在 `/path/to/static/files/` 目录下寻找 `image.jpg` 文件。==
+
+总的来说，`alias` 提供了更强大的灵活性，因为它可以将 URL 路径映射到任意的实际文件路径，而 `root` 则是在指定的目录下寻找匹配的文件。选择使用哪种方法取决于你的需求和实际情况。
+
+
+
+
+
 ## 配置文件
 
 - 最小化配置
